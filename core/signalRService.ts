@@ -1,8 +1,8 @@
 import * as signalR from "@microsoft/signalr";
 export let connection: signalR.HubConnection | null = null;
-export const startSignalRConnection = async () => {
-  console.log(" i am here");
-
+export const startSignalRConnection = async (
+  setProgress: (value: number) => void
+) => {
   if (connection) return;
   connection = new signalR.HubConnectionBuilder()
     .withUrl("https://websocket-api.classbon.com/hub")
@@ -19,7 +19,8 @@ export const startSignalRConnection = async () => {
 
   connection.on("ReceiveProgress", (message: string) => {
     try {
-      console.log(message);
+      const progressValue = parseInt(message, 10);
+      setProgress(progressValue);
     } catch (error) {
       console.error("error parsing data"), error;
     }
