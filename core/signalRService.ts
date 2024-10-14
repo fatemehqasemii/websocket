@@ -16,6 +16,14 @@ export const startSignalRConnection = async () => {
   } catch (err) {
     console.error("SignalR connection failed" + err);
   }
+
+  connection.on("ReceiveProgress", (message: string) => {
+    try {
+      console.log(message);
+    } catch (error) {
+      console.error("error parsing data"), error;
+    }
+  });
 };
 
 export const startProgress = async () => {
