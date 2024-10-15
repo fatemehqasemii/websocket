@@ -6,7 +6,8 @@ export interface Location {
 }
 
 export const startSignalRConnection = async (
-  setProgress: (value: number) => void
+  setProgress: (value: number) => void,
+  addLocation: (location: Location) => void
 ) => {
   if (connection) return;
   connection = new signalR.HubConnectionBuilder()
@@ -34,7 +35,7 @@ export const startSignalRConnection = async (
   connection.on("ReceiveLocation", (message: any) => {
     try {
       const location = message as Location;
-      console.log(location);
+      addLocation(location);
     } catch (error) {
       console.log("ReceiveLocation", error);
     }

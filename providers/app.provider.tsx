@@ -1,9 +1,12 @@
 "use client";
+import { Location } from "@/core/signalRService";
 import { createContext, useContext, useState } from "react";
 
 interface AppType {
   progress: number;
   setProgress: (value: number) => void;
+  locations: Location[];
+  addLocation: (location: Location) => void;
 }
 
 const AppContext = createContext<AppType | undefined>(undefined);
@@ -17,8 +20,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  const [locations, setLocations] = useState<Location[]>([]);
+  const addLocation = (location: Location) => {
+    setLocations((prevLocations) => [...prevLocations, location]);
+  };
+
   return (
-    <AppContext.Provider value={{ progress, setProgress: updateProgress }}>
+    <AppContext.Provider
+      value={{ progress, setProgress: updateProgress, locations, addLocation }}
+    >
       {children}
     </AppContext.Provider>
   );
