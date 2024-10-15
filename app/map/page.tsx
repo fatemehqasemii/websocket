@@ -1,16 +1,15 @@
 "use client";
-import { startTracking } from "@/core/signalRService";
-import { useAppContext } from "@/providers/app.provider";
-import { useEffect } from "react";
 
-export default function MapPage() {
+import { useAppContext } from "@/providers/app.provider";
+import dynamic from "next/dynamic";
+const Map = dynamic(() => import("@/components/map"), { ssr: false });
+
+export default function ProgressPage() {
   const appContext = useAppContext();
-  useEffect(() => {
-    startTracking();
-  }, []);
+
   return (
     <>
-      <Map location={appContext.locations} />
+      <Map locations={appContext.locations} />
     </>
   );
 }
